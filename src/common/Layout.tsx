@@ -1,4 +1,5 @@
 import React from 'react'
+import {Header} from './components/Header'
 
 type LayoutType = {
   children?: React.ReactNode
@@ -7,11 +8,12 @@ type LayoutType = {
 export const Layout: React.FC<LayoutType> = ({children}) => {
   return (
     <>
-      <div style={{
-        margin: 50
-      }}>
-        <main>{children}</main>
-      </div>
+
+     
+      <Header />
+      <main>{children}</main>
+      {/* <footer>FOOTER</footer> */}
+
     </>
   )
 }
