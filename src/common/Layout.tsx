@@ -8,9 +8,12 @@ type LayoutType = {
 export const Layout: React.FC<LayoutType> = ({children}) => {
   return (
     <>
+
+     
       <Header />
       <main>{children}</main>
       {/* <footer>FOOTER</footer> */}
+
     </>
   )
 }
