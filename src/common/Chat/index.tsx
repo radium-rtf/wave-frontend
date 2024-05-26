@@ -1,7 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {FC, useEffect, useRef, useState} from 'react'
 import {createUseStyles} from 'react-jss'
 import {Theme} from '../../types'
 import classNames from 'classnames'
+import {VideoChat} from './VideoChat'
+import {Smile} from './Smile'
+import {Send} from './Send'
 
 const mock = [
   {
@@ -72,9 +75,10 @@ const TailSVG: React.FC = () => {
 
 type ChatInputType = {
   sendMessage: (message: string) => void
+  setSendActive: (isActive: boolean) => void
 }
 
-const ChatInput: React.FC<ChatInputType> = ({sendMessage}) => {
+const ChatInput: React.FC<ChatInputType> = ({sendMessage, setSendActive}) => {
   const c = useStyles()
   const [message, setMessage] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -83,6 +87,14 @@ const ChatInput: React.FC<ChatInputType> = ({sendMessage}) => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }, [message])
+
+  useEffect(() => {
+    if (message.length !== 0) {
+      setSendActive(true)
+    } else {
+      setSendActive(false)
     }
   }, [message])
 
@@ -107,33 +119,15 @@ const ChatInput: React.FC<ChatInputType> = ({sendMessage}) => {
   )
 }
 
-const Dot = () => {
-  const c = useStyles()
-  const [opened, setopened] = useState<boolean>(false)
-  const handleClick = () => {
-    setopened(!opened)
-  }
-  return (
-    <>
-      <span onClick={handleClick} className={c.tripleDot}>
-        ...
-      </span>
-      {opened && (
-        <div className={c.modalContent}>
-          <ul>
-            <li>edit</li>
-            <li>info</li>
-            <li>mute</li>
-          </ul>
-        </div>
-      )}
-    </>
-  )
+type ChatProps = {
+  setSettingsActive: (isSettingsActive: boolean) => void
+  isSettingsActive: boolean
 }
 
-export const Chat = () => {
+export const Chat: FC<ChatProps> = ({setSettingsActive, isSettingsActive}) => {
   const c = useStyles()
   const [messages, setMessages] = useState(mock)
+  const [sendActive, setSendActive] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const setBottomScroll = () => {
     if (ref.current) {
@@ -161,13 +155,16 @@ export const Chat = () => {
             }}
             width={25}
             height={25}
-            src='https://w7.pngwing.com/pngs/980/886/png-transparent-male-portrait-avatar-computer-icons-icon-design-avatar-flat-face-icon-people-head-cartoon.png'
+            src='https://sun9-17.userapi.com/impg/vjuS4Em_u-CdVoiihm050TezVT2A30dvZEusOQ/QBC0hA3IufU.jpg?size=675x745&quality=95&sign=c0ff4788fc6a00b6c03ed83e54b6cab6&type=album'
             alt=''
           />
-          <span className={c.avatarName}>Любовь Любовная</span>
+          <span className={c.avatarName}>Иван Молодцов</span>
         </div>
-        <div>
-          <Dot />
+        <div className={c.headerRightSide}>
+          <VideoChat />
+          <button className={c.tripleDotButton} onClick={() => setSettingsActive(!isSettingsActive)}>
+            <span className={c.tripleDot}>...</span>
+          </button>
         </div>
       </div>
 
@@ -191,10 +188,10 @@ export const Chat = () => {
         <div className={c.footerAttachment}>
           <SkrepkaSVG />
         </div>
-        <ChatInput sendMessage={sendMessage} />
+        <ChatInput sendMessage={sendMessage} setSendActive={setSendActive} />
         <div className={c.footerRightattachment}>
-          <SkrepkaSVG />
-          <SkrepkaSVG />
+          <Smile />
+          <Send isActive={sendActive} />
         </div>
       </div>
     </div>
@@ -204,16 +201,21 @@ export const Chat = () => {
 const useStyles = createUseStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.background.card,
-    width: 500,
+    // width: 500,
     borderRadius: 16,
     padding: [0, 0, 24, 0],
+  },
+  headerRightSide: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 15,
   },
   tail: {
     height: 24,
   },
   footer: {
     margin: [0, 24],
-    border: '1px solid gray',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
     borderRadius: 8,
     display: 'flex',
     flexDirection: 'row',
@@ -221,7 +223,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: 'center',
   },
   messageTime: {
-    color: 'gray',
+    color: 'rgba(255, 255, 255, 0.1)',
     transition: '50%',
     marginTop: 2,
     fontSize: 10,
@@ -232,7 +234,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
-    borderBottom: '1px solid gray',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
     height: 50,
     margin: [0, 24],
   },
@@ -302,10 +304,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
   tripleDot: {
     color: 'white',
     cursor: 'pointer',
+    height: 5,
+    display: 'flex',
+    transform: 'translateY(-7px)',
   },
   modalContent: {
     position: 'relative',
-    backgroundColor: 'gray',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     minWidth: 75,
     minHeight: 100,
     left: '100%',
@@ -314,4 +319,26 @@ const useStyles = createUseStyles((theme: Theme) => ({
   avatarName: {
     cursor: 'pointer',
   },
+  tripleDotButton: {
+    border: 'none',
+    background: 'none',
+    margin: 0,
+    padding: 0,
+  },
 }))
+
+/* Разделитель */
+
+/* Auto layout */
+/* Rectangle 11 */
+
+// width: 1000px;
+// height: 1px;
+
+// background: rgba(255, 255, 255, 0.1);
+// border-radius: 1px;
+
+// /* Inside auto layout */
+// flex: none;
+// order: 1;
+// flex-grow: 1;

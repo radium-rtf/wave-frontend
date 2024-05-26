@@ -1,31 +1,52 @@
 @font-face {
   font-family: 'NTSomic';
-  src: url('/fonts/NTSomic-Regular.ttf') format('truetype');
+  src: url('./fonts/NTSomic/01_NTSomic-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
-/* Bold */
 @font-face {
   font-family: 'NTSomic';
-  src: url('/fonts/NTSomic-Bold.ttf') format('truetype');
+  src: url('./fonts/NTSomic/02_NTSomic-Medium.ttf') format('truetype');
+  font-weight: medium;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NTSomic';
+  src: url('./fonts/NTSomic/03_NTSomic-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 
-/* Italic */
 @font-face {
-  font-family: 'NTSomic';
-  src: url('/fonts/NTSomic-Italic.ttf') format('truetype');
-  font-weight: normal;
+  font-family: 'Inter';
+  src: url('./fonts/Inter/Inter-Regular.otf') format('opentype');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+
+/* Inter Bold */
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter/Inter-Bold.otf') format('opentype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+/* Inter Italic */
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter/Inter-Italic.otf') format('opentype');
+  font-weight: 400; /* Regular Italic */
   font-style: italic;
 }
 
-/* Bold Italic */
+/* Inter Bold Italic */
 @font-face {
-  font-family: 'NTSomic';
-  src: url('/fonts/NTSomic-BoldItalic.ttf') format('truetype');
-  font-weight: bold;
+  font-family: 'Inter';
+  src: url('./fonts/Inter/Inter-BoldItalic.otf') format('opentype');
+  font-weight: 700; /* Bold Italic */
   font-style: italic;
 }
 
