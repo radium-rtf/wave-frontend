@@ -1,3 +1,41 @@
+@font-face {
+  font-family: 'NTSomic';
+  src: url('/fonts/NTSomic-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Bold */
+@font-face {
+  font-family: 'NTSomic';
+  src: url('/fonts/NTSomic-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Italic */
+@font-face {
+  font-family: 'NTSomic';
+  src: url('/fonts/NTSomic-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* Bold Italic */
+@font-face {
+  font-family: 'NTSomic';
+  src: url('/fonts/NTSomic-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+body {
+  font-family: 'NTSomic', sans-serif;
+  background-color: rgb(34, 36, 37);
+  color: white;
+}
+
+
 * {
   margin: 0;
   padding: 0;

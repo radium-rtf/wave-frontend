@@ -1,4 +1,5 @@
 import React from 'react'
+import {Header} from './components/Header'
 
 type LayoutType = {
   children?: React.ReactNode
@@ -7,9 +8,9 @@ type LayoutType = {
 export const Layout: React.FC<LayoutType> = ({children}) => {
   return (
     <>
-      <header>HEADER</header>
+      <Header />
       <main>{children}</main>
-      <footer>FOOTER</footer>
+      {/* <footer>FOOTER</footer> */}
     </>
   )
 }
