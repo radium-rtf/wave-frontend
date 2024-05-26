@@ -29,7 +29,6 @@ const useStyles = createUseStyles({
     cursor: 'pointer',
     justifyContent: 'space-between',
     display: 'flex',
-    minWidth: 396,
   },
   leftSide: {
     display: 'flex',
