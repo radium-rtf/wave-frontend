@@ -6,19 +6,20 @@ import classNames from 'classnames'
 const mock = [
   {
     isOwner: true,
-    content: 'хочу самсу',
+    content: 'хочу самсунг',
     time: '18:00',
   },
   {
     isOwner: false,
     content:
-      'Это ваше мнение, сформированно ошибочно, намеренно или случайно. Оно не совпадает ни с моим мнением, ни с мнением Ильи Николаевича, ни с мнением экспертов, которые вас слушали. У вас есть выбор, все-таки находится в коммуникации со внешним миром, в том числе и с критической оценкой, полученной на ваш проект, либо обижаться на всех и вся, что вас якобы незаслуженно обидели. Судя по тому, что вы не попытались хотя бы узнать о консультации и сходить на нее и как-то стараться дальше взаимодействовать, даже в случае отрицательной оценки на ваш проект, вы выбираете второй вариант, высказываясь о бесполезности дальнейшего взаимодействия. Это ваше право. Однако, еще раз замечу, что ваше впечатление ошибочно. Надеюсь, другие ребята будут поступать мудрее в аналогичной ситуации.',
+      'Привет! Меня зовут Любовь. Я здесь, чтобы помочь вам с любыми вопросами или проблемами, с которыми вы столкнулись. Я очень люблю общаться с людьми и делать все возможное, чтобы помочь им. Не стесняйтесь обращаться ко мне за помощью или просто для общения!',
     time: '18:01',
   },
   {
     isOwner: true,
-    content: 'ну давай нападай!',
-    time: '17:59',
+    content:
+      'Привет! Хочу поблагодарить тебя за помощь. Ты очень отзывчивый и понимающий. Мне так приятно общаться с тобой. Спасибо за поддержку!',
+    time: '18:01',
   },
 ]
 
@@ -106,6 +107,30 @@ const ChatInput: React.FC<ChatInputType> = ({sendMessage}) => {
   )
 }
 
+const Dot = () => {
+  const c = useStyles()
+  const [opened, setopened] = useState<boolean>(false)
+  const handleClick = () => {
+    setopened(!opened)
+  }
+  return (
+    <>
+      <span onClick={handleClick} className={c.tripleDot}>
+        ...
+      </span>
+      {opened && (
+        <div className={c.modalContent}>
+          <ul>
+            <li>edit</li>
+            <li>info</li>
+            <li>mute</li>
+          </ul>
+        </div>
+      )}
+    </>
+  )
+}
+
 export const Chat = () => {
   const c = useStyles()
   const [messages, setMessages] = useState(mock)
@@ -118,7 +143,7 @@ export const Chat = () => {
   const sendMessage = (message: string) => {
     messages.push({
       content: message,
-      time: '22:03',
+      time: '18:03',
       isOwner: true,
     })
     setMessages([...messages])
@@ -139,10 +164,10 @@ export const Chat = () => {
             src='https://w7.pngwing.com/pngs/980/886/png-transparent-male-portrait-avatar-computer-icons-icon-design-avatar-flat-face-icon-people-head-cartoon.png'
             alt=''
           />
-          <span>Любовь Любовная</span>
+          <span className={c.avatarName}>Любовь Любовная</span>
         </div>
         <div>
-          <span style={{color: 'white'}}>...</span>
+          <Dot />
         </div>
       </div>
 
@@ -184,7 +209,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: [0, 0, 24, 0],
   },
   tail: {
-    height: 17,
+    height: 24,
   },
   footer: {
     margin: [0, 24],
@@ -273,5 +298,20 @@ const useStyles = createUseStyles((theme: Theme) => ({
     gap: 10,
     marginLeft: 5,
     color: '#BFD5FF',
+  },
+  tripleDot: {
+    color: 'white',
+    cursor: 'pointer',
+  },
+  modalContent: {
+    position: 'relative',
+    backgroundColor: 'gray',
+    minWidth: 75,
+    minHeight: 100,
+    left: '100%',
+    top: '100%',
+  },
+  avatarName: {
+    cursor: 'pointer',
   },
 }))

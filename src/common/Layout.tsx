@@ -7,9 +7,11 @@ type LayoutType = {
 export const Layout: React.FC<LayoutType> = ({children}) => {
   return (
     <>
-      <header>HEADER</header>
-      <main>{children}</main>
-      <footer>FOOTER</footer>
+      <div style={{
+        margin: 50
+      }}>
+        <main>{children}</main>
+      </div>
     </>
   )
 }
