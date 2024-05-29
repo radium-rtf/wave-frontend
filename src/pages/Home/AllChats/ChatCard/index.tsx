@@ -1,20 +1,41 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {createUseStyles} from 'react-jss'
+import {AppDispatch} from '../../../../storage/store'
+import {useDispatch} from 'react-redux'
+import {setChatWithData} from '../../../../storage/chatWithSlice'
 
-export const ChatCard = () => {
+type ChatCardProps = {
+  avatar?: string
+  email?: string
+  id?: string
+  name?: string
+}
+
+export const ChatCard: FC<ChatCardProps> = ({id, name, avatar}) => {
   const c = useStyles()
-  const avatar =
-    'https://sun9-17.userapi.com/impg/vjuS4Em_u-CdVoiihm050TezVT2A30dvZEusOQ/QBC0hA3IufU.jpg?size=675x745&quality=95&sign=c0ff4788fc6a00b6c03ed83e54b6cab6&type=album'
-  const fullName = 'Иван Молодцов'
-  const countOfNewMessages = 5
+  // const avatar = user.avatar ?? ''
+  // const fullName = user.fullName ?? ''
+  const countOfNewMessages = 0
+  const dispatch = useDispatch<AppDispatch>()
+
+  const setChat = () => {
+    dispatch(
+      setChatWithData({
+        avatar: avatar ?? '',
+        email: '',
+        id: id ?? '',
+        name: name ?? '',
+      })
+    )
+  }
 
   return (
-    <button className={c.root}>
+    <button className={c.root} onClick={setChat}>
       <div className={c.leftSide}>
-        <img className={c.avatar} src={avatar} alt='' />
-        <p className={c.fullName}>{fullName}</p>
+        <img className={c.avatar} src={avatar ?? ''} alt='' />
+        <p className={c.fullName}>{name ?? ''}</p>
       </div>
-      <div className={c.newMessages}>{countOfNewMessages}</div>
+      {countOfNewMessages > 0 && <div className={c.newMessages}>{countOfNewMessages}</div>}
     </button>
   )
 }
