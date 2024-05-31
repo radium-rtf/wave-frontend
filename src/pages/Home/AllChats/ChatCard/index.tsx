@@ -1,12 +1,16 @@
 import React from 'react'
 import {createUseStyles} from 'react-jss'
 
-export const ChatCard = () => {
+type chatData = {
+  name: string
+  unreaded: number
+}
+export const ChatCard: React.FC<chatData> = ({name, unreaded}) => {
   const c = useStyles()
   const avatar =
     'https://sun9-17.userapi.com/impg/vjuS4Em_u-CdVoiihm050TezVT2A30dvZEusOQ/QBC0hA3IufU.jpg?size=675x745&quality=95&sign=c0ff4788fc6a00b6c03ed83e54b6cab6&type=album'
-  const fullName = 'Иван Молодцов'
-  const countOfNewMessages = 5
+  const fullName: string = name || 'Иван Молодцов'
+  const countOfNewMessages = unreaded || 5
 
   return (
     <button className={c.root}>

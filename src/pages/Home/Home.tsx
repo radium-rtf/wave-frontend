@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import {createUseStyles} from 'react-jss'
 import {Chat} from '../../common/Chat'
-import {createChat} from '../../api'
 import {AllChats} from './AllChats'
 import {ChatTitle} from './ChatTitle'
 import cn from 'classnames'
@@ -10,14 +9,8 @@ import {ChatSettings} from './ChatSettings'
 export const Home: React.FC = () => {
   const c = useStyles()
   const [isSettingsActive, setSettingsActive] = useState(false)
-  const onCLick = () => {
-    createChat()
-  }
   return (
     <div>
-      <button onClick={onCLick}></button>
-
-
       <div className={cn(c.root, c.margin)}>
         <div className={c.chatTitle}>
           <ChatTitle />
