@@ -5,6 +5,9 @@ import classNames from 'classnames'
 import {VideoChat} from './VideoChat'
 import {Smile} from './Smile'
 import {Send} from './Send'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../storage/store'
+import axios from 'axios'
 
 const mock: {
   isOwner: boolean
@@ -107,6 +110,9 @@ const ChatInput: React.FC<ChatInputType> = ({sendMessage, setSendActive}) => {
       <textarea
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
+            if (message === '') {
+              return
+            }
             sendMessage(message)
             event.preventDefault()
             setMessage('')
@@ -128,27 +134,59 @@ type ChatProps = {
   isSettingsActive: boolean
 }
 
+type Message = {
+  isOwner: boolean
+  content: string
+  time: string
+}
+
 export const Chat: FC<ChatProps> = ({setSettingsActive, isSettingsActive}) => {
   const c = useStyles()
-  const [messages, setMessages] = useState(mock)
+  const [messages, setMessages] = useState<Message[] | null>(null)
   const [sendActive, setSendActive] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
+  const chatWith = useSelector((state: RootState) => state.chatWith)
   const setBottomScroll = () => {
     if (ref.current) {
       ref.current.scrollTop = ref.current?.scrollHeight || 0
     }
   }
   const sendMessage = (message: string) => {
-    messages.push({
-      content: message,
-      time: '18:03',
-      isOwner: true,
-    })
-    setMessages([...messages])
+    if (messages) {
+      setMessages([
+        ...messages,
+        {
+          content: message,
+          time: '18:03',
+          isOwner: true,
+        },
+      ])
+    } else {
+      setMessages([
+        {
+          content: message,
+          time: '18:03',
+          isOwner: true,
+        },
+      ])
+    }
   }
   useEffect(() => {
     setBottomScroll()
   }, [messages])
+
+  useEffect(() => {
+    axios
+      .get('' + chatWith.id)
+      .then((el) => {
+        if (el.data) {
+          setMessages(el.data)
+        }
+      })
+      // eslint-disable-next-line no-console
+      .catch((error) => console.error(error))
+  }, [chatWith.id])
+
   return (
     <div className={c.root}>
       <div className={c.header}>
@@ -159,10 +197,10 @@ export const Chat: FC<ChatProps> = ({setSettingsActive, isSettingsActive}) => {
             }}
             width={25}
             height={25}
-            src='https://sun9-17.userapi.com/impg/vjuS4Em_u-CdVoiihm050TezVT2A30dvZEusOQ/QBC0hA3IufU.jpg?size=675x745&quality=95&sign=c0ff4788fc6a00b6c03ed83e54b6cab6&type=album'
+            src={chatWith.avatar}
             alt=''
           />
-          <span className={c.avatarName}>Иван Молодцов</span>
+          <span className={c.avatarName}>{chatWith.name}</span>
         </div>
         <div className={c.headerRightSide}>
           <VideoChat />
@@ -173,19 +211,21 @@ export const Chat: FC<ChatProps> = ({setSettingsActive, isSettingsActive}) => {
       </div>
 
       <div ref={ref} className={c.content}>
-        {messages.map((message, id) => (
-          <div key={id} className={classNames(c.messageContainer, message.isOwner && c.messageContainerOwner)}>
-            {!message.isOwner && (
-              <div className={c.tail}>
-                <TailSVG />
+        {chatWith.id && messages
+          ? messages.map((message, id) => (
+              <div key={id} className={classNames(c.messageContainer, message.isOwner && c.messageContainerOwner)}>
+                {!message.isOwner && (
+                  <div className={c.tail}>
+                    <TailSVG />
+                  </div>
+                )}
+                <div className={classNames(c.message, message.isOwner && c.messageOwner)}>
+                  <div>{message.content}</div>
+                  <div className={classNames(c.messageTime, message.isOwner && c.messageTimeOwner)}>{message.time}</div>
+                </div>
               </div>
-            )}
-            <div className={classNames(c.message, message.isOwner && c.messageOwner)}>
-              <div>{message.content}</div>
-              <div className={classNames(c.messageTime, message.isOwner && c.messageTimeOwner)}>{message.time}</div>
-            </div>
-          </div>
-        ))}
+            ))
+          : null}
       </div>
 
       <div className={c.footer}>
