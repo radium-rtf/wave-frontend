@@ -9,6 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
+RUN npm config set strict-ssl false
 RUN npm install
 
 # Copy the rest of the application files into the container
